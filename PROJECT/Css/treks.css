@@ -1,0 +1,152 @@
+/* ===== Treks page (Treks.aspx) - liquid glass cards =====
+   Loaded only on this page through the master's "head" placeholder. */
+
+.treks-page {
+    min-height: 100vh;
+    padding: 130px 0 100px;
+    font-family: 'Outfit', 'Montserrat', sans-serif;
+    color: #fff;
+    background-color: #5a0f1c; /* maroon base */
+    /* Glass needs something colourful behind it to bend.
+       >>> Put a photo at image/treks-bg.jpg (or change this path) <<<
+       Without the photo you still get the maroon glow below. */
+    background-image:
+        radial-gradient(circle at 15% 15%, rgba(255, 200, 0, .22), transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(192, 57, 43, .45), transparent 45%),
+        linear-gradient(rgba(70, 8, 22, .55), rgba(40, 4, 14, .8)),
+        url('../image/treks-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.treks-wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+.treks-head { margin-bottom: 50px; }
+.treks-head .section-title { color: #fff; font-size: 44px; }
+.treks-head .section-sub { color: #dbe5ea; margin-bottom: 0; }
+
+/* ---------- Grid ---------- */
+.trek-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 28px;
+}
+
+/* ---------- Card ---------- */
+.trek-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 28px;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(160deg, #3d6b5a, #1c3d4a); /* shows if the photo is missing */
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .35);
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+}
+.trek-card:hover,
+.trek-card:focus-visible {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 46px rgba(0, 0, 0, .45);
+}
+.trek-card:focus-visible { outline: 3px solid #ffc800; outline-offset: 4px; }
+
+.trek-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s cubic-bezier(.2, .8, .2, 1);
+}
+.trek-card:hover .trek-img { transform: scale(1.08); }
+
+/* soft shade at the bottom so the glass reads well on bright photos */
+.trek-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, .45), transparent 55%);
+    pointer-events: none;
+}
+
+/* ---------- The liquid glass panel ---------- */
+.trek-glass {
+    position: absolute;
+    z-index: 2;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 16px 16px 22px;
+    overflow: hidden;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, .30), rgba(255, 255, 255, .08));
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, .38);
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, .75),    /* bright top edge */
+        inset 0 -1px 1px rgba(255, 255, 255, .15),   /* faint bottom edge */
+        0 10px 28px rgba(0, 0, 0, .28);
+    transition: background .35s ease, transform .35s ease;
+}
+/* light that follows the pointer (position set by the small script in Treks.aspx) */
+.trek-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(170px circle at var(--mx, 30%) var(--my, 0%), rgba(255, 255, 255, .5), transparent 60%);
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+}
+.trek-card:hover .trek-glass { background: linear-gradient(135deg, rgba(255, 255, 255, .38), rgba(255, 255, 255, .14)); transform: translateY(-3px); }
+.trek-card:hover .trek-glass::before { opacity: 1; }
+
+.trek-name {
+    position: relative;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.25;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .35);
+}
+
+.trek-go {
+    position: relative;
+    flex: none;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .26);
+    border: 1px solid rgba(255, 255, 255, .55);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, .7);
+    transition: background-color .3s ease, color .3s ease, transform .3s ease;
+}
+.trek-go svg { width: 20px; height: 20px; }
+.trek-card:hover .trek-go { background: #ffc800; border-color: #ffc800; color: #111; transform: translateX(3px); }
+
+/* browsers without backdrop-filter get a more solid panel so text stays readable */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .trek-glass { background: rgba(20, 40, 50, .72); }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 900px) {
+    .treks-page { padding: 110px 0 70px; background-attachment: scroll; }
+    .treks-head .section-title { font-size: 32px; }
+    .trek-grid { gap: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .trek-card, .trek-img, .trek-glass, .trek-go { transition: none !important; }
+    .trek-card:hover, .trek-card:hover .trek-img { transform: none; }
+}

@@ -1,0 +1,60 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="project.master.cs" Inherits="PROJECT.project" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Druk Trek</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Roboto+Slab:ital,wght@0,400;1,400&family=Outfit:wght@300;400;500&family=DM+Sans:wght@700&display=swap" rel="stylesheet" />
+    <link href="<%= ResolveUrl("/Css/master.css") %>" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <header id="siteHeader" runat="server" ClientIDMode="Static" class="site-header">
+            <div class="container header-inner">
+                <asp:HyperLink ID="lnkBrand" runat="server" NavigateUrl="~/Home.aspx" CssClass="brand">
+                    <asp:Image ID="imgLogo" runat="server" ImageUrl="/image/Bhutan.jpg" AlternateText="Druk Trek" CssClass="brand-logo" />
+                </asp:HyperLink>
+
+                <button type="button" id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+
+                <asp:Menu ID="mainMenu" runat="server" ClientIDMode="Static" Orientation="Horizontal" RenderingMode="List" IncludeStyleBlock="false" SkipLinkText="" CssClass="main-nav">
+                    <Items>
+                        <asp:MenuItem Text="Explore" NavigateUrl="~/Treks.aspx" />
+                        <asp:MenuItem Text="About US" NavigateUrl="~/Aboutus.aspx" />
+                        <asp:MenuItem Text="Contact us" NavigateUrl="~/Contactus.aspx" />
+                        <asp:MenuItem Text="Registration" NavigateUrl="~/Registration.aspx" />
+                        <asp:MenuItem Text="Our Services" NavigateUrl="~/Service.aspx" />
+                        <asp:MenuItem Text="Contact Us" NavigateUrl="~/Default.aspx#contactus" />
+                    </Items>
+                </asp:Menu>
+            </div>
+        </header>
+
+
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        </asp:ContentPlaceHolder>
+
+         <footer class="site-footer">
+            <div class="footer-wrap">
+                <div class="footer-brand">BHUTAN</div>
+
+                <div class="footer-dept">
+                    <asp:Image ID="imgEmblem" runat="server" ImageUrl="~/image/emblem.png" AlternateText="Emblem" CssClass="footer-emblem" />
+                    <div class="footer-dept-name">Department of Tourism</div>
+                    <div class="footer-copy">Copyright &copy; 2024 All Rights Reserved</div>
+                </div>
+            </div>
+        </footer>
+
+    </form>
+
+    <script src="<%= ResolveUrl("/Scripts/site.js") %>"></script>
+</body>
+</html>
